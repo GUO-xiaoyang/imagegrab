@@ -330,7 +330,13 @@ code {
   display: grid;
   grid-template-columns: 1.05fr 0.95fr;
   gap: var(--space-8);
-  align-items: center;
+  /* 防止两列互相拉伸高度（否则右侧示意图会被撑高、内容错位） */
+  align-items: start;
+}
+
+/* 左列内容在栅格中垂直居中，视觉更平衡 */
+.hero-copy {
+  align-self: center;
 }
 
 .hero-badge {
@@ -411,11 +417,20 @@ code {
 .hero-visual {
   display: flex;
   justify-content: center;
+  align-items: center;
+  /* 与左列文字块垂直居中；min-height:0 防止 flex 子项被父级高度拉伸 */
+  align-self: center;
+  min-height: 0;
 }
 
 .mock {
   width: 100%;
   max-width: 460px;
+  /* 高度完全由内容决定，禁止被父级拉伸 */
+  height: auto;
+  min-height: 0;
+  align-self: flex-start;
+  flex: 0 0 auto;
   border-radius: var(--radius-lg);
   background: #fff;
   border: 1px solid var(--line);
@@ -458,13 +473,25 @@ code {
   padding: 16px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: auto;
+  align-content: start;
   gap: 10px;
   background: #fff;
 }
 
+/* 商品图占位：3 列网格（此前缺少列定义导致 6 张图纵向堆叠、把卡片撑得过高） */
+.mock-goods {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: auto;
+  gap: 10px;
+}
+
 .mock-thumb {
   display: block;
-  aspect-ratio: 1 / 1;
+  /* 固定高度，避免在 grid 中与 aspect-ratio 产生高度反馈 */
+  height: 96px;
   border-radius: var(--radius-sm);
   background: linear-gradient(135deg, #e0e7ff 0%, #ede9fe 100%);
   border: 1px solid #e5e7eb;
