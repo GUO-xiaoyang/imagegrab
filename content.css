@@ -1,0 +1,137 @@
+/**
+ * 图提取 ImageGrab · 页面内注入样式
+ * 全部使用 #imagegrab- 前缀 + 高优先级选择器，避免被电商站点样式覆盖。
+ */
+
+#imagegrab-btn {
+  position: fixed;
+  right: 24px;
+  bottom: 96px;
+  z-index: 2147483000;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 12px 18px;
+  border: 0;
+  border-radius: 999px;
+
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  color: #fff;
+
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.42),
+              0 2px 6px rgba(15, 23, 42, 0.18);
+
+  cursor: pointer;
+  user-select: none;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  -webkit-font-smoothing: antialiased;
+}
+
+#imagegrab-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(99, 102, 241, 0.5),
+              0 3px 8px rgba(15, 23, 42, 0.2);
+}
+
+#imagegrab-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+#imagegrab-btn:focus-visible {
+  outline: 3px solid rgba(99, 102, 241, 0.45);
+  outline-offset: 2px;
+}
+
+#imagegrab-btn .ig-icon {
+  flex: 0 0 auto;
+  display: block;
+}
+
+/* 各状态 */
+#imagegrab-btn[data-state="loading"] {
+  cursor: progress;
+  background: linear-gradient(135deg, #818cf8 0%, #a78bfa 100%);
+}
+
+#imagegrab-btn[data-state="loading"] .ig-icon {
+  animation: imagegrab-spin 1s linear infinite;
+}
+
+#imagegrab-btn[data-state="done"] {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.42);
+}
+
+#imagegrab-btn[data-state="error"] {
+  background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+  box-shadow: 0 6px 20px rgba(239, 68, 68, 0.42);
+}
+
+#imagegrab-btn:disabled {
+  opacity: 0.85;
+}
+
+@keyframes imagegrab-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 页面内提示条 */
+#imagegrab-toast {
+  position: fixed;
+  right: 24px;
+  bottom: 156px;
+  z-index: 2147483001;
+
+  max-width: 340px;
+  padding: 12px 16px;
+  border-radius: 12px;
+
+  font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #0f172a;
+  background: #fff;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.16),
+              0 2px 6px rgba(15, 23, 42, 0.08);
+
+  opacity: 0;
+  transform: translateY(8px);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+#imagegrab-toast[data-show="1"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+#imagegrab-toast[data-kind="ok"] {
+  border-left: 4px solid #10b981;
+}
+
+#imagegrab-toast[data-kind="warn"] {
+  border-left: 4px solid #f59e0b;
+}
+
+/* 小屏适配：避免遮挡页面底部操作 */
+@media (max-width: 768px) {
+  #imagegrab-btn {
+    right: 14px;
+    bottom: 82px;
+    padding: 11px 15px;
+    font-size: 13px;
+  }
+  #imagegrab-toast {
+    right: 14px;
+    bottom: 140px;
+    max-width: calc(100vw - 28px);
+  }
+}

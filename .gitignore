@@ -1,0 +1,27 @@
+# 依赖与构建产物
+node_modules/
+dist/
+build/
+*.zip
+
+# 系统与编辑器
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+
+# 日志与临时文件
+*.log
+npm-debug.log*
+.env
+.env.local
+.cache/
+
+# Python（测试脚本可能用到）
+__pycache__/
+*.pyc
+
+# 扩展打包产物
+imagegrab-v*.zip
